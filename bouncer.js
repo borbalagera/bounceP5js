@@ -3,6 +3,8 @@ var bally = 180;
 var xspeed = 6;
 var yspeed = 2;
 var r = 15;
+var score = 0;
+var highscore = 0;
 
 var oppy = 250;
 var playerX = 0;
@@ -24,24 +26,32 @@ function draw() {
   ellipse(ballx, bally, r * 2, r * 2);
   ballMove();
   moveOpp();
+  textAlign(CENTER);
+  textSize(32);
+  text("score: " + score, windowWidth / 2, 30);
+  text("highscore: " + highscore, windowWidth / 2, 60);
 
   function ballMove() {
     ballx += xspeed;
     bally += yspeed;
 
     if (ballx < 25 && mouseY - 50 < bally && mouseY + 50 > bally) {
+      score++;
+      if (score > highscore) {
+        highscore = score;
+      }
       re = random(0, 255);
       g = random(0, 255);
       b = random(0, 255);
-      fill(re, g, b);
       stroke(re, g, b);
+      fill(re, g, b);
       xspeed *= -1;
     }
     if (ballx < 0) {
       resetBall();
     }
     if (ballx > windowWidth - 25 && bally > oppy && bally < oppy + 100) {
-      xspeed *= -1;
+      xspeed = (xspeed + 2) * -1;
       re = random(0, 255);
       g = random(0, 255);
       b = random(0, 255);
@@ -80,5 +90,7 @@ function resetBall() {
   b = random(0, 255);
   fill(re, g, b);
   stroke(re, g, b);
+  xspeed = 6;
   xspeed *= -1;
+  score = 0;
 }
